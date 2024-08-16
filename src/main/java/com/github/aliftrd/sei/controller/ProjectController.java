@@ -11,49 +11,48 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.aliftrd.sei.domain.dto.location.CreateLocationDTO;
-import com.github.aliftrd.sei.domain.dto.location.UpdateLocationDTO;
-import com.github.aliftrd.sei.domain.service.LocationService;
+import com.github.aliftrd.sei.domain.dto.project.CreateProjectDTO;
+import com.github.aliftrd.sei.domain.dto.project.UpdateProjectDTO;
+import com.github.aliftrd.sei.domain.service.ProjectService;
 import com.github.aliftrd.sei.utils.response.ResponseFormatter;
 
 import jakarta.validation.Valid;
 import lombok.val;
 
 @RestController
-@RequestMapping("/lokasi")
-public class LocationController {
+@RequestMapping("/proyek")
+public class ProjectController {
     @Autowired
     private ResponseFormatter response;
 
     @Autowired
-    private LocationService locationService;
+    private ProjectService projectService;
 
     @GetMapping
     public ResponseEntity<?> index() {
-        val message = "success get data location";
-        val data = locationService.findAll();
+        val message = "success get data proyek";
 
-        return response.success(message, data);
+        return response.success(message, projectService.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody CreateLocationDTO dto) {
-        val message = "success post data location";
+    public ResponseEntity<?> create(@Valid @RequestBody CreateProjectDTO dto) {
+        val message = "success post data proyek";
 
-        return response.success(message, locationService.create(dto));
+        return response.success(message, projectService.create(dto));
     }
-
+    
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody UpdateLocationDTO dto ) {
-        val message = "success updating data location";
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody UpdateProjectDTO dto) {
+        val message = "success post data proyek";
 
-        return response.success(message, locationService.update(id, dto));
+        return response.success(message, projectService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        val message = "success delete the location";
-        locationService.delete(id);
+        val message = "success delete the proyek";
+        projectService.delete(id);
         
         return response.success(message);
     }

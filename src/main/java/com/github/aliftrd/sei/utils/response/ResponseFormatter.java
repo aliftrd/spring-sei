@@ -1,40 +1,51 @@
 package com.github.aliftrd.sei.utils.response;
 
-import java.util.LinkedHashMap;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import lombok.Setter;
-import lombok.val;
 
-@Setter
+import java.util.LinkedHashMap;
+
 @Component
 public class ResponseFormatter {
-    
-    protected HttpStatus status = HttpStatus.OK;
-    protected String message;
-    protected Object data;
-    protected Object errors;
 
-
-    public ResponseEntity<Object> success(String message) {
-        setMessage(message);
-
-        return buildResponse();
+    public ResponseEntity<?> success(String message) {
+        return buildResponse(HttpStatus.OK, message, null, null);
     }
 
-    public ResponseEntity<Object> buildResponse() {
-        val response = ResponseEntity.status(status).contentType(MediaType.APPLICATION_JSON).body(buildBody());
-
-        return response;
+    public ResponseEntity<?> success(String message, Object data) {
+        return buildResponse(HttpStatus.OK, message, data, null);
     }
 
-    private Object buildBody() {
+    public ResponseEntity<?> error(String message) {
+        return buildResponse(HttpStatus.BAD_REQUEST, message, null, null);
+    }
+
+    public ResponseEntity<?> error(String message, Object data) {
+        return buildResponse(HttpStatus.BAD_REQUEST, message, null, data);
+    }
+
+    public ResponseEntity<?> error(HttpStatus status, String message) {
+        return buildResponse(status, message, null, null);
+    }
+
+    public ResponseEntity<?> error(HttpStatus status, String message, Object data) {
+        return buildResponse(status, message, null, data);
+    }
+
+    private ResponseEntity<Object> buildResponse(HttpStatus status, String message, Object data, Object errors) {
         LinkedHashMap<String, Object> body = new LinkedHashMap<>();
         body.put("message", message);
-        body.put("data", data);
-        return body;
-    } 
+        
+        if(data != null) {
+            body.put("data", data);
+        }
+
+        if (errors != null) {
+            body.put("errors", errors);
+        }
+
+        return ResponseEntity.status(status).contentType(MediaType.APPLICATION_JSON).body(body);
+    }
 }
