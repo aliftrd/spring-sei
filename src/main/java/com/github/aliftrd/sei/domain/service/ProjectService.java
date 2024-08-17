@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.github.aliftrd.sei.domain.dto.project.CreateProjectDTO;
@@ -32,7 +33,7 @@ public class ProjectService {
     private ModelMapper modelMapper;
 
     public Iterable<FindProjectDTO> findAll() {
-        Iterable<Project> projects = projectRepository.findAll();
+        Iterable<Project> projects = projectRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
         List<FindProjectDTO> dtos = new ArrayList<>();
 

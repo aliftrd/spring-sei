@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.github.aliftrd.sei.domain.dto.location.CreateLocationDTO;
@@ -25,7 +26,7 @@ public class LocationService  {
     private ModelMapper modelMapper;
 
     public Iterable<FindLocationDTO> findAll() {
-        Iterable<Location> locations = locationRepo.findAll();
+        Iterable<Location> locations = locationRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
         List<FindLocationDTO> dtos = new ArrayList<>();
 

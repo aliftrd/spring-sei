@@ -17,6 +17,7 @@ public class FindProjectDTO {
     @JsonProperty("nama_proyek")
     protected String namaProyek;
     
+    @JsonProperty("lokasi")
     protected Set<FindLocationDTO> locations;
 
     protected String client;
